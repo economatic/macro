@@ -6,7 +6,7 @@ import plotly.express as px
 # --- CONFIGURAÇÃO DA PÁGINA ---
 st.set_page_config(
     page_title="Minha Aplicação Web",
-    page_icon="✨",
+    page_icon="🏦",
     layout="wide"
 )
 
@@ -122,11 +122,7 @@ if pagina == "🌐 Página inicial":
     st.markdown(
         """
         <p>
-        Este monitor econômico foi desenvolvido para fornecer uma visão abrangente e detalhada dos
-        principais indicadores econômicos. Nosso objetivo é transformar dados complexos em informações
-        claras e acessíveis, permitindo que você tome decisões mais informadas. Explore os dashboards
-        interativos, acesse dados brutos e acompanhe análises e tendências para compreender o cenário
-        econômico atual e futuro.
+        Este monitor econômico foi desenvolvido para fornecer uma visão abrangente e detalhada dos principais indicadores econômicos. Nosso objetivo é transformar dados complexos em informações claras e acessíveis, permitindo que você tome decisões mais informadas. Para garantir a confiabilidade e atualização contínua, o projeto conta com a integração direta com a API do Banco Central do Brasil, utilizando o Sistema Gerenciador de Séries Temporais (SGS) para a extração dos dados econômicos. Explore os dashboards interativos, acesse dados brutos e acompanhe análises e tendências para compreender o cenário econômico atual e futuro.
         </p>
         """,
         unsafe_allow_html=True
@@ -139,20 +135,20 @@ if pagina == "🌐 Página inicial":
 
     with col1:
         st.image(
-            "agro.jpeg", # Sua imagem do Agro (nova)
-            caption="Força de tudo aquilo que move o agronegócio.",
+            "agro.jpg", # Sua imagem do Agro (nova)
+            caption="Riqueza primitiva.",
             use_container_width=True
         )
     with col2:
         st.image(
-            "Operarios.jpeg", # Sua imagem dos Operários
-            caption="O motor da indústria e do trabalho.",
+            "Operarios.jpg", # Sua imagem dos Operários
+            caption="O lucro cresce sobre rostos que não sorriem.",
             use_container_width=True
         )
     with col3:
         st.image(
-            "wall.jpeg", # Sua imagem de Wall Street
-            caption="Centro financeiro global.",
+            "wall.jpg", # Sua imagem de Wall Street
+            caption="Um só caminho, e não é para todos.",
             use_container_width=True
         )
 
