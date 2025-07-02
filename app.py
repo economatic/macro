@@ -14,61 +14,65 @@ st.set_page_config(
 st.markdown(
     """
     <style>
+        /* Fundo da aplicação */
         .main {
-            background: linear-gradient(135deg, #f0f2f6 0%, #d9e4f5 100%);
+            background: linear-gradient(135deg, #0E1117 0%, #1a1d24 100%);
         }
-        header.css-18ni7ap.e8zbici2 {
-            background-color: #0E1117;
+
+        /* Cabeçalho - visível em tema escuro */
+        h1 {
+            color: #f2f2f2;
+            text-align: left;
+            font-weight: bold;
+            margin-bottom: 1rem;
         }
-        .st-emotion-cache-10trblm.e1nzilvr1 {
-            color: #0E1117;
+
+        /* Texto de parágrafo principal */
+        .st-emotion-cache-nahz7x {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #d0d0d0;
+            text-align: justify;
         }
+
+        /* Container da aplicação */
         .block-container {
             padding-top: 2rem;
             padding-bottom: 2rem;
             padding-left: 2rem;
             padding-right: 2rem;
         }
-        /* Estilo para o rodapé do sidebar */
-        .st-emotion-cache-vk33gh { /* Este é o seletor para o conteúdo do sidebar */
+
+        /* Footer do sidebar */
+        .st-emotion-cache-vk33gh {
             display: flex;
             flex-direction: column;
-            min-height: 100vh; /* Garante que o sidebar ocupe toda a altura da viewport */
+            min-height: 100vh;
         }
         .sidebar-footer {
-            margin-top: auto; /* Empurra o footer para o final */
+            margin-top: auto;
             text-align: center;
-            color: #A9A9A9; /* Cinza claro */
+            color: #A9A9A9;
             font-size: 0.8em;
-            font-weight: 300; /* Fina */
-            padding-bottom: 1rem; /* Espaço para não colar na borda */
-        }
-        /* Ajuste para o texto principal da página */
-        .st-emotion-cache-nahz7x { /* Seletor para o markdown de parágrafo */
-            font-size: 1.1em;
-            line-height: 1.6;
-            color: #4F4F4F;
-            text-align: justify;
+            font-weight: 300;
+            padding-bottom: 1rem;
         }
 
-        /* --- NOVO ESTILO PARA AS IMAGENS NAS COLUNAS --- */
-        /* O seletor para o contêiner das imagens dentro das colunas */
-        /* O seletor exato pode variar, o .stImage é mais genérico para imagens */
-        .st-emotion-cache-z5fcl4 .stImage { /* Para as colunas especificas, este pode ser o seletor certo */
-            height: 250px; /* Define uma altura fixa para todas as imagens */
-            overflow: hidden; /* Oculta partes da imagem que excedam a altura */
-            display: flex; /* Para centralizar o conteúdo da imagem */
-            align-items: center; /* Centraliza verticalmente */
-            justify-content: center; /* Centraliza horizontalmente */
+        /* Imagens nas colunas */
+        .st-emotion-cache-z5fcl4 .stImage {
+            height: 250px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .st-emotion-cache-z5fcl4 .stImage img {
-            width: 100%; /* Garante que a imagem preencha a largura da coluna */
-            height: 100%; /* Preenche a altura definida no pai (.stImage) */
-            object-fit: cover; /* Recorta a imagem para preencher o contêiner sem distorcer */
-            display: block; /* Remove espaços extras */
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
-
     </style>
     """,
     unsafe_allow_html=True
@@ -76,15 +80,9 @@ st.markdown(
 
 # --- SIDEBAR ---
 with st.sidebar:
-    st.image(
-        "Logo_UERJ.svg",
-        width=300,
-        output_format="svg"
-    )
-
+    st.image("Logo_UERJ.svg", width=300, output_format="svg")
     st.title("Menu")
 
-    # Definição das abas
     abas = [
         "🌐 Página inicial",
         "📈 Dashboard",
@@ -93,32 +91,28 @@ with st.sidebar:
         "⚠️ Alertas e Cenários"
     ]
 
-    # Seleção da aba
     pagina = st.radio("Ir para:", abas)
 
-    # --- FOOTER DO SIDEBAR ---
     st.markdown(
         """
         <div class="sidebar-footer">
-            Developed by - Marcio V.
+            Developed by · Marcio V ·
         </div>
         """,
         unsafe_allow_html=True
     )
 
-
 # --- HEADER ---
 def exibe_header(titulo, descricao=None):
-    st.markdown(f"<h1 style='color:#0E1117'>{titulo}</h1>", unsafe_allow_html=True)
+    st.markdown(f"<h1>{titulo}</h1>", unsafe_allow_html=True)
     if descricao:
-        st.markdown(f"<p style='color:#333333'>{descricao}</p>", unsafe_allow_html=True)
+        st.markdown(f"<p style='color:#CCCCCC'>{descricao}</p>", unsafe_allow_html=True)
     st.markdown("---")
 
 # --- CONTEÚDOS DAS ABAS ---
 if pagina == "🌐 Página inicial":
-    exibe_header("Bem vindo ao monitor econômico")
+    exibe_header("Bem vindo ao monitor econômico - NE3 ")
 
-    # Texto de sua autoria
     st.markdown(
         """
         <p>
@@ -127,48 +121,26 @@ if pagina == "🌐 Página inicial":
         """,
         unsafe_allow_html=True
     )
-    st.markdown("---") # Adiciona uma linha divisória para separar o texto da imagem
+    st.markdown("---")
 
-    # --- COLUNAS PARA AS IMAGENS ---
-    # Criamos 3 colunas de tamanhos iguais (1, 1, 1)
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.image(
-            "agro.jpg", # Sua imagem do Agro (nova)
-            caption="Riqueza primitiva.",
-            use_container_width=True
-        )
+        st.image("agro.jpg", caption="No limite, toda economia volta à terra.", use_container_width=True)
     with col2:
-        st.image(
-            "Operarios.jpg", # Sua imagem dos Operários
-            caption="O lucro cresce sobre rostos que não sorriem.",
-            use_container_width=True
-        )
+        st.image("Operarios.jpg", caption="O lucro cresce sobre rostos que não sorriem.", use_container_width=True)
     with col3:
-        st.image(
-            "wall.jpg", # Sua imagem de Wall Street
-            caption="Um só caminho, e não é para todos.",
-            use_container_width=True
-        )
+        st.image("wall.jpg", caption="Um só caminho, e não é para todos.", use_container_width=True)
 
 elif pagina == "📈 Dashboard":
     exibe_header("📈 Dashboard", "Visualize gráficos e indicadores.")
 
-    # Exemplo de gráfico
     df = pd.DataFrame({
         "Categoria": ["A", "B", "C", "D"],
         "Valores": np.random.randint(10, 100, size=4)
     })
 
-    fig = px.bar(
-        df,
-        x="Categoria", # <-- Corrigido: x é 'Categoria'
-        y="Valores",   # <-- Corrigido: y é 'Valores'
-        title="Gráfico de Barras",
-        color="Categoria",
-        height=400
-    )
+    fig = px.bar(df, x="Categoria", y="Valores", title="Gráfico de Barras", color="Categoria", height=400)
     st.plotly_chart(fig, use_container_width=True)
 
 elif pagina == "🗃️ Dados":
@@ -183,12 +155,7 @@ elif pagina == "🗃️ Dados":
     st.dataframe(data, use_container_width=True)
 
     csv = data.to_csv(index=False).encode('utf-8')
-    st.download_button(
-        label="📥 Baixar dados em CSV",
-        data=csv,
-        file_name='dados.csv',
-        mime='text/csv'
-    )
+    st.download_button("📥 Baixar dados em CSV", data=csv, file_name='dados.csv', mime='text/csv')
 
 elif pagina == "📝 Análises e Tendências":
     exibe_header("📝 Relatórios", "Gere e visualize relatórios.")
@@ -202,16 +169,12 @@ elif pagina == "⚠️ Alertas e Cenários":
     tema = st.selectbox("Escolha um tema:", ["Claro", "Escuro", "Colorido"])
     notificacoes = st.checkbox("Receber notificações?")
     email = st.text_input("Email para notificações:")
-
     st.button("Salvar Configurações")
-
     st.success("Configurações atualizadas!")
 
-# --- FOOTER (Opcional - da página principal) ---
+# --- FOOTER ---
 st.markdown("---")
 st.markdown(
-    "<p style='text-align: center; color: grey;'>"
-    "Develpode by Marcio V · 2025"
-    "</p>",
+    "<p style='text-align: center; color: grey;'>Developed by Núcleo de Estudos em Economia Empírica · 2025</p>",
     unsafe_allow_html=True
 )
