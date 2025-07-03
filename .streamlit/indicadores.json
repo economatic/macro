@@ -1,101 +1,5 @@
 [
     {
-        "nome": "IPCA - Índice Nacional de Preços ao Consumidor Amplo",
-        "codigo_sgs": 433,
-        "unidade": "% mensal",
-        "fonte": "IBGE/BCB",
-        "categoria": "Inflação",
-        "descricao": "Principal indicador de inflação do Brasil, reflete a variação dos preços de produtos e serviços consumidos pelas famílias com renda entre 1 e 40 salários mínimos nas áreas urbanas."
-    },
-    {
-        "nome": "SELIC - Taxa Básica de Juros",
-        "codigo_sgs": 432,
-        "unidade": "% ao ano",
-        "fonte": "Banco Central do Brasil",
-        "categoria": "Juros",
-        "descricao": "Taxa básica de juros da economia brasileira, definida pelo Comitê de Política Monetária (COPOM) do Banco Central. Serve como referência para todas as outras taxas de juros do país."
-    },
-    {
-        "nome": "PIB - Produto Interno Bruto (preços correntes)",
-        "codigo_sgs": 7326,
-        "unidade": "R$ milhões / Variação %",
-        "fonte": "IBGE/BCB",
-        "categoria": "Atividade Econômica",
-        "descricao": "Soma de todos os bens e serviços finais produzidos em um país em um determinado período. É o principal indicador da atividade econômica de uma nação."
-    },
-    {
-        "nome": "Dólar Comercial - Taxa de câmbio - Compra - PTAX 800",
-        "codigo_sgs": 1,
-        "unidade": "R$ / US$",
-        "fonte": "Banco Central do Brasil",
-        "categoria": "Câmbio",
-        "descricao": "Taxa de câmbio de referência para operações de comércio exterior, turismo e outras transações financeiras. Reflete o preço do dólar americano em reais no mercado interbancário."
-    },
-    {
-        "nome": "IGP-M - Índice Geral de Preços - Mercado",
-        "codigo_sgs": 189,
-        "unidade": "% mensal",
-        "fonte": "FGV",
-        "categoria": "Inflação",
-        "descricao": "Índice de inflação que abrange não apenas o consumidor, mas também os preços no atacado (IPA) e os custos da construção civil (INCC). Muito usado em reajustes de aluguéis."
-    },
-    {
-        "nome": "Taxa de Desemprego (PNAD Contínua - Brasil)",
-        "codigo_sgs": 24369,
-        "unidade": "%",
-        "fonte": "IBGE",
-        "categoria": "Mercado de Trabalho",
-        "descricao": "Percentual de pessoas na força de trabalho que estão desocupadas e em busca de trabalho. Indicador chave da saúde do mercado de trabalho."
-    },
-    {
-        "nome": "Produção Industrial - Índice geral (Mensal)",
-        "codigo_sgs": 21859,
-        "unidade": "Número índice / % mensal",
-        "fonte": "IBGE/BCB",
-        "categoria": "Atividade Econômica",
-        "descricao": "Mede a evolução da produção física da indústria no país. Indicador importante do dinamismo do setor produtivo."
-    },
-    {
-        "nome": "Saldo da Balança Comercial - Exportações - FOB",
-        "codigo_sgs": 21855,
-        "unidade": "US$ milhões",
-        "fonte": "MDIC/BCB",
-        "categoria": "Comércio Exterior",
-        "descricao": "Valor total das vendas de bens e serviços do Brasil para outros países. Componente crucial da balança comercial."
-    },
-    {
-        "nome": "Saldo da Balança Comercial - Importações - FOB",
-        "codigo_sgs": 21856,
-        "unidade": "US$ milhões",
-        "fonte": "MDIC/BCB",
-        "categoria": "Comércio Exterior",
-        "descricao": "Valor total das compras de bens e serviços do Brasil de outros países. Componente crucial da balança comercial."
-    },
-    {
-        "nome": "Reservas Internacionais - Conceito Liquidez",
-        "codigo_sgs": 3546,
-        "unidade": "US$ milhões",
-        "fonte": "Banco Central do Brasil",
-        "categoria": "Setor Externo",
-        "descricao": "Ativos externos (principalmente moedas estrangeiras, ouro, SDR) mantidos pelo Banco Central. Servem como 'colchão' para choques externos e para garantir a liquidez do país."
-    },
-    {
-        "nome": "Fluxo Cambial Total (Bancos) - Saldo",
-        "codigo_sgs": 21851,
-        "unidade": "US$ milhões",
-        "fonte": "Banco Central do Brasil",
-        "categoria": "Setor Externo",
-        "descricao": "Diferença entre o volume de dólares que entram e saem do país através das operações dos bancos autorizados. Indica a pressão sobre o câmbio."
-    },
-    {
-        "nome": "Índice de Confiança do Consumidor (ICC)",
-        "codigo_sgs": 4393,
-        "unidade": "Pontos",
-        "fonte": "FGV",
-        "categoria": "Expectativas",
-        "descricao": "Mede a percepção dos consumidores sobre a situação econômica atual e futura, influenciando decisões de consumo e investimentos."
-    },
-    {
         "nome": "IBC-Br - Índice de Atividade Econômica do Banco Central (Série Original)",
         "codigo_sgs": 24363,
         "unidade": "Variação %",
@@ -112,68 +16,20 @@
         "descricao": "Considerado uma 'prévia do PIB', com ajuste para efeitos sazonais, sendo mais adequado para análise de tendência do que a série original."
     },
     {
-        "nome": "IPCA - Núcleo de Inflação por Exclusão (Serviços)",
-        "codigo_sgs": 16124,
-        "unidade": "% mensal",
+        "nome": "PIB - Produto Interno Bruto (preços correntes)",
+        "codigo_sgs": 7326,
+        "unidade": "R$ milhões / Variação %",
         "fonte": "IBGE/BCB",
-        "categoria": "Inflação",
-        "descricao": "Medida que tenta capturar a inflação de forma mais 'limpa', excluindo itens com alta volatilidade ou choques temporários (neste caso, focando em serviços)."
+        "categoria": "Atividade Econômica",
+        "descricao": "Soma de todos os bens e serviços finais produzidos em um país em um determinado período. É o principal indicador da atividade econômica de uma nação."
     },
     {
-        "nome": "Crescimento do Crédito Total - Pessoas Físicas",
-        "codigo_sgs": 20677,
-        "unidade": "% ao ano",
-        "fonte": "Banco Central do Brasil",
-        "categoria": "Crédito",
-        "descricao": "Variação anual do volume total de crédito concedido a pessoas físicas no sistema financeiro, indicando o dinamismo do consumo."
-    },
-    {
-        "nome": "Crescimento do Crédito Total - Pessoas Jurídicas",
-        "codigo_sgs": 20678,
-        "unidade": "% ao ano",
-        "fonte": "Banco Central do Brasil",
-        "categoria": "Crédito",
-        "descricao": "Variação anual do volume total de crédito concedido a empresas. Reflete a demanda por investimento e capital de giro."
-    },
-    {
-        "nome": "Taxa de Juros DI (Taxa Média CDI)",
-        "codigo_sgs": 12,
-        "unidade": "% ao ano",
-        "fonte": "CETIP/BCB",
-        "categoria": "Juros",
-        "descricao": "Taxa média dos empréstimos diários entre os bancos, lastreada em títulos de renda fixa (CDI). Segue de perto a taxa Selic e é referência para investimentos e endividamento bancário."
-    },
-    {
-        "nome": "Spread Bancário (Média Pessoa Física)",
-        "codigo_sgs": 20760,
-        "unidade": "% ao ano",
-        "fonte": "Banco Central do Brasil",
-        "categoria": "Crédito",
-        "descricao": "Diferença entre a taxa de juros que os bancos cobram em empréstimos e o custo de captação dos recursos. Indica a margem de lucro dos bancos nas operações de crédito."
-    },
-    {
-        "nome": "Dívida Pública Bruta do Governo Geral (% PIB)",
-        "codigo_sgs": 4504,
-        "unidade": "% do PIB",
-        "fonte": "Banco Central do Brasil",
-        "categoria": "Finanças Públicas",
-        "descricao": "Montante total da dívida bruta do governo (federal, estaduais e municipais) como proporção do PIB. Indicador crucial da sustentabilidade fiscal do país."
-    },
-    {
-        "nome": "Resultado Nominal do Setor Público (Acumulado 12 meses)",
-        "codigo_sgs": 4503,
-        "unidade": "R$ milhões",
-        "fonte": "Banco Central do Brasil",
-        "categoria": "Finanças Públicas",
-        "descricao": "Diferença entre as receitas e despesas totais do setor público (incluindo juros da dívida) acumuladas nos últimos 12 meses. Indica o balanço fiscal geral do governo."
-    },
-    {
-        "nome": "Preços das Commodities (Índice de Preços de Commodities – ICP)",
-        "codigo_sgs": 11786,
-        "unidade": "Número índice",
-        "fonte": "Banco Central do Brasil",
-        "categoria": "Comércio Exterior",
-        "descricao": "Mede a variação dos preços de um grupo de commodities agrícolas, minerais e energéticas exportadas pelo Brasil. Impacta a balança comercial e a inflação."
+        "nome": "Produção Industrial - Índice geral (Mensal)",
+        "codigo_sgs": 21859,
+        "unidade": "Número índice / % mensal",
+        "fonte": "IBGE/BCB",
+        "categoria": "Atividade Econômica",
+        "descricao": "Mede a evolução da produção física da indústria no país. Indicador importante do dinamismo do setor produtivo."
     },
     {
         "nome": "Índice de Volume de Vendas no Varejo (Setores Excluídos Veículos, Motos, Partes e Peças e Material de Construção)",
@@ -200,12 +56,148 @@
         "descricao": "Mede a evolução do volume de receitas brutas de empresas do setor de serviços, refletindo o desempenho de um dos maiores setores da economia."
     },
     {
-        "nome": "Custo da Construção Civil - INCC-M (Mensal)",
-        "codigo_sgs": 192,
+        "nome": "Dólar Comercial - Taxa de câmbio - Compra - PTAX 800",
+        "codigo_sgs": 1,
+        "unidade": "R$ / US$",
+        "fonte": "Banco Central do Brasil",
+        "categoria": "Câmbio",
+        "descricao": "Taxa de câmbio de referência para operações de comércio exterior, turismo e outras transações financeiras. Reflete o preço do dólar americano em reais no mercado interbancário."
+    },
+    {
+        "nome": "Saldo da Balança Comercial - Exportações - FOB",
+        "codigo_sgs": 21855,
+        "unidade": "US$ milhões",
+        "fonte": "MDIC/BCB",
+        "categoria": "Comércio Exterior",
+        "descricao": "Valor total das vendas de bens e serviços do Brasil para outros países. Componente crucial da balança comercial."
+    },
+    {
+        "nome": "Saldo da Balança Comercial - Importações - FOB",
+        "codigo_sgs": 21856,
+        "unidade": "US$ milhões",
+        "fonte": "IBGE/BCB",
+        "categoria": "Comércio Exterior",
+        "descricao": "Valor total das compras de bens e serviços do Brasil de outros países. Componente crucial da balança comercial."
+    },
+    {
+        "nome": "Preços das Commodities (Índice de Preços de Commodities – ICP)",
+        "codigo_sgs": 11786,
+        "unidade": "Número índice",
+        "fonte": "Banco Central do Brasil",
+        "categoria": "Comércio Exterior",
+        "descricao": "Mede a variação dos preços de um grupo de commodities agrícolas, minerais e energéticas exportadas pelo Brasil. Impacta a balança comercial e a inflação."
+    },
+    {
+        "nome": "Crescimento do Crédito Total - Pessoas Físicas",
+        "codigo_sgs": 20677,
+        "unidade": "% ao ano",
+        "fonte": "Banco Central do Brasil",
+        "categoria": "Crédito",
+        "descricao": "Variação anual do volume total de crédito concedido a pessoas físicas no sistema financeiro, indicando o dinamismo do consumo."
+    },
+    {
+        "nome": "Crescimento do Crédito Total - Pessoas Jurídicas",
+        "codigo_sgs": 20678,
+        "unidade": "% ao ano",
+        "fonte": "Banco Central do Brasil",
+        "categoria": "Crédito",
+        "descricao": "Variação anual do volume total de crédito concedido a empresas. Reflete a demanda por investimento e capital de giro."
+    },
+    {
+        "nome": "Spread Bancário (Média Pessoa Física)",
+        "codigo_sgs": 20760,
+        "unidade": "% ao ano",
+        "fonte": "Banco Central do Brasil",
+        "categoria": "Crédito",
+        "descricao": "Diferença entre a taxa de juros que os bancos cobram em empréstimos e o custo de captação dos recursos. Indica a margem de lucro dos bancos nas operações de crédito."
+    },
+    {
+        "nome": "Índice de Confiança do Consumidor (ICC)",
+        "codigo_sgs": 4393,
+        "unidade": "Pontos",
+        "fonte": "FGV",
+        "categoria": "Expectativas",
+        "descricao": "Mede a percepção dos consumidores sobre a situação econômica atual e futura, influenciando decisões de consumo e investimentos."
+    },
+    {
+        "nome": "Dívida Pública Bruta do Governo Geral (% PIB)",
+        "codigo_sgs": 4504,
+        "unidade": "% do PIB",
+        "fonte": "Banco Central do Brasil",
+        "categoria": "Finanças Públicas",
+        "descricao": "Montante total da dívida bruta do governo (federal, estaduais e municipais) como proporção do PIB. Indicador crucial da sustentabilidade fiscal do país."
+    },
+    {
+        "nome": "Resultado Nominal do Setor Público (Acumulado 12 meses)",
+        "codigo_sgs": 4503,
+        "unidade": "R$ milhões",
+        "fonte": "Banco Central do Brasil",
+        "categoria": "Finanças Públicas",
+        "descricao": "Diferença entre as receitas e despesas totais do setor público (incluindo juros da dívida) acumuladas nos últimos 12 meses. Indica o balanço fiscal geral do governo."
+    },
+    {
+        "nome": "IPCA - Índice Nacional de Preços ao Consumidor Amplo",
+        "codigo_sgs": 433,
+        "unidade": "% mensal",
+        "fonte": "IBGE/BCB",
+        "categoria": "Inflação",
+        "descricao": "Principal indicador de inflação do Brasil, reflete a variação dos preços de produtos e serviços consumidos pelas famílias com renda entre 1 e 40 salários mínimos nas áreas urbanas."
+    },
+    {
+        "nome": "IPCA-15 - Índice Nacional de Preços ao Consumidor Amplo 15",
+        "codigo_sgs": 7478,
+        "unidade": "% mensal",
+        "fonte": "IBGE/BCB",
+        "categoria": "Inflação",
+        "descricao": "Versão prévia do IPCA, com período de coleta de preços do dia 16 do mês anterior ao dia 15 do mês de referência. Aponta uma tendência para o IPCA do mês."
+    },
+    {
+        "nome": "IPCA-E - Índice de Preços ao Consumidor Amplo Especial",
+        "codigo_sgs": 10764,
+        "unidade": "% trimestral",
+        "fonte": "IBGE/BCB",
+        "categoria": "Inflação",
+        "descricao": "Divulgado trimestralmente, é composto pelas taxas do IPCA-15 de cada um dos três meses do trimestre, refletindo a inflação acumulada no período."
+    },
+    {
+        "nome": "INPC - Índice Nacional de Preços ao Consumidor",
+        "codigo_sgs": 188,
+        "unidade": "% mensal",
+        "fonte": "IBGE/BCB",
+        "categoria": "Inflação",
+        "descricao": "Calculado para famílias com renda de 1 a 5 salários mínimos. Mais usado para reajustes de salários e benefícios previdenciários."
+    },
+    {
+        "nome": "IGP-M - Índice Geral de Preços - Mercado",
+        "codigo_sgs": 189,
         "unidade": "% mensal",
         "fonte": "FGV",
-        "categoria": "Setor Imobiliário / Inflação",
-        "descricao": "Mede a variação dos custos de construções habitacionais. É amplamente utilizado para reajuste de contratos do setor imobiliário."
+        "categoria": "Inflação",
+        "descricao": "Índice de inflação que abrange não apenas o consumidor, mas também os preços no atacado (IPA) e os custos da construção civil (INCC). Muito usado em reajustes de aluguéis."
+    },
+    {
+        "nome": "IGP-DI - Índice Geral de Preços - Disponibilidade Interna",
+        "codigo_sgs": 190,
+        "unidade": "% mensal",
+        "fonte": "FGV",
+        "categoria": "Inflação",
+        "descricao": "Assim como o IGP-M, mede a inflação geral da economia, mas com um período de coleta diferente. Também composto por IPA-DI, IPC-DI e INCC-DI."
+    },
+    {
+        "nome": "IGP-10 - Índice Geral de Preços - 10",
+        "codigo_sgs": 7447,
+        "unidade": "% mensal",
+        "fonte": "FGV",
+        "categoria": "Inflação",
+        "descricao": "Versão do IGP com período de coleta do dia 11 do mês anterior ao dia 10 do mês de referência. Usado para contratos com datas específicas de reajuste."
+    },
+    {
+        "nome": "IPCA - Núcleo de Inflação por Exclusão (Serviços)",
+        "codigo_sgs": 16124,
+        "unidade": "% mensal",
+        "fonte": "IBGE/BCB",
+        "categoria": "Inflação",
+        "descricao": "Medida que tenta capturar a inflação de forma mais 'limpa', excluindo itens com alta volatilidade ou choques temporários (neste caso, focando em serviços)."
     },
     {
         "nome": "Índice de Preços ao Consumidor (IPC-FIPE)",
@@ -214,6 +206,46 @@
         "fonte": "FIPE",
         "categoria": "Inflação",
         "descricao": "Calculado pela FIPE (Fundação Instituto de Pesquisas Econômicas), mede a variação dos preços de produtos e serviços para famílias paulistanas. Complementar ao IPCA."
+    },
+    {
+        "nome": "IPA-M - Índice de Preços ao Produtor Amplo - Mercado",
+        "codigo_sgs": 7450,
+        "unidade": "% mensal",
+        "fonte": "FGV",
+        "categoria": "Inflação (Atacado)",
+        "descricao": "Componente do IGP-M, mede a variação de preços no atacado, tanto para produtos agrícolas quanto industriais. Reflete pressões inflacionárias na origem da cadeia produtiva."
+    },
+    {
+        "nome": "IPP - Índice de Preços ao Produtor (Geral)",
+        "codigo_sgs": 11776,
+        "unidade": "% mensal",
+        "fonte": "IBGE",
+        "categoria": "Inflação (Atacado)",
+        "descricao": "Mede a variação dos preços de venda recebidos pelos produtores nacionais de bens e serviços, sem incluir o frete e impostos sobre vendas. Reflete os custos de produção."
+    },
+    {
+        "nome": "SELIC - Taxa Básica de Juros",
+        "codigo_sgs": 432,
+        "unidade": "% ao ano",
+        "fonte": "Banco Central do Brasil",
+        "categoria": "Juros",
+        "descricao": "Taxa básica de juros da economia brasileira, definida pelo Comitê de Política Monetária (COPOM) do Banco Central. Serve como referência para todas as outras taxas de juros do país."
+    },
+    {
+        "nome": "Taxa de Juros DI (Taxa Média CDI)",
+        "codigo_sgs": 12,
+        "unidade": "% ao ano",
+        "fonte": "CETIP/BCB",
+        "categoria": "Juros",
+        "descricao": "Taxa média dos empréstimos diários entre os bancos, lastreada em títulos de renda fixa (CDI). Segue de perto a taxa Selic e é referência para investimentos e endividamento bancário."
+    },
+    {
+        "nome": "Taxa de Desemprego (PNAD Contínua - Brasil)",
+        "codigo_sgs": 24369,
+        "unidade": "%",
+        "fonte": "IBGE",
+        "categoria": "Mercado de Trabalho",
+        "descricao": "Percentual de pessoas na força de trabalho que estão desocupadas e em busca de trabalho. Indicador chave da saúde do mercado de trabalho."
     },
     {
         "nome": "Rendimento Médio Real Efetivo Habitual (PNAD Contínua)",
@@ -230,6 +262,30 @@
         "fonte": "IBGE",
         "categoria": "Mercado de Trabalho",
         "descricao": "Soma de todos os rendimentos habituais de todos os trabalhos das pessoas ocupadas, descontada a inflação. Reflete o volume total de recursos disponíveis para consumo e poupança."
+    },
+    {
+        "nome": "Custo da Construção Civil - INCC-M (Mensal)",
+        "codigo_sgs": 192,
+        "unidade": "% mensal",
+        "fonte": "FGV",
+        "categoria": "Setor Imobiliário / Inflação",
+        "descricao": "Mede a variação dos custos de construções habitacionais. É amplamente utilizado para reajuste de contratos do setor imobiliário."
+    },
+    {
+        "nome": "Fluxo Cambial Total (Bancos) - Saldo",
+        "codigo_sgs": 21851,
+        "unidade": "US$ milhões",
+        "fonte": "Banco Central do Brasil",
+        "categoria": "Setor Externo",
+        "descricao": "Diferença entre o volume de dólares que entram e saem do país através das operações dos bancos autorizados. Indica a pressão sobre o câmbio."
+    },
+    {
+        "nome": "Reservas Internacionais - Conceito Liquidez",
+        "codigo_sgs": 3546,
+        "unidade": "US$ milhões",
+        "fonte": "Banco Central do Brasil",
+        "categoria": "Setor Externo",
+        "descricao": "Ativos externos (principalmente moedas estrangeiras, ouro, SDR) mantidos pelo Banco Central. Servem como 'colchão' para choques externos e para garantir a liquidez do país."
     },
     {
         "nome": "Investimento Estrangeiro Direto (IED) Líquido",
