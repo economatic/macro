@@ -4,11 +4,12 @@ import numpy as np
 import plotly.express as px
 import datetime
 from bcb import sgs
-from bcb import currency
-from bcb import Expectativas
-from bcb import TaxaJuros
-# Importar o módulo sgs da biblioteca bcb
-import requests # Importar para fazer requisições HTTP (para enviar feedback)
+# from bcb import currency # Não está sendo usada
+# from bcb import Expectativas # Não está sendo usada
+# from bcb import TaxaJuros # Não está sendo usada
+import google.generativeai as genai
+import requests
+import json # Importar para ler o arquivo JSON
 
 # --- CONFIGURAÇÃO DA PÁGINA ---
 st.set_page_config(
@@ -17,16 +18,21 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- LISTA DE INDICADORES (DICIONÁRIO PARA FACILITAR O ACESSO AO CÓDIGO BCB) ---
-INDICADORES_BCB = {
-    "IPCA - Índice Nacional de Preços ao Consumidor Amplo": 433,
-    "SELIC - Taxa Básica de Juros": 432,
-    "PIB - Produto Interno Bruto (preços correntes)": 7326,
-    "Dólar Comercial - Taxa de câmbio - Compra - PTAX 800": 1,
-    "IGP-M - Índice Geral de Preços - Mercado": 189,
-    "Taxa de Desemprego (PNAD Contínua - Brasil)": 24369
-}
-NOMES_INDICADORES = list(INDICADORES_BCB.keys())
+# --- CARREGAR INDICADORES DO ARQUIVO JSON ---
+# O arquivo indicadores.json está na pasta .streamlit, então o caminho é relativo.
+try:
+    with open(".streamlit/indicadores.json", "r", encoding="utf-8") as f:
+        INDICADORES_COMPLETOS = json.load(f)
+except FileNotFoundError:
+    st.error("Erro: O arquivo 'indicadores.json' não foi encontrado na pasta '.streamlit/'.")
+    st.stop() # Interrompe a execução se o arquivo não for encontrado
+
+# Criar o dicionário INDICADORES_BCB e a lista de nomes a partir do JSON
+INDICADORES_BCB_DICT = {item["nome"]: item["codigo_sgs"] for item in INDICADORES_COMPLETOS if item["codigo_sgs"] is not None}
+NOMES_INDICADORES = [item["nome"] for item in INDICADORES_COMPLETOS]
+
+# Criar um dicionário para fácil acesso às descrições e outros atributos por nome
+INDICADOR_DETALHES = {item["nome"]: item for item in INDICADORES_COMPLETOS}
 
 # --- ESTILO CUSTOMIZADO ---
 st.markdown(
@@ -100,19 +106,15 @@ st.markdown(
             font-size: 0.9em;
         }
 
-        /* >>>>>>>>>>>>>>>>> NOVO CSS PARA AJUSTAR O SIDEBAR <<<<<<<<<<<<<<<<< */
-        /* Use 'width' para definir uma largura fixa e 'min-width' para garantir */
-        /* Ajuste o valor '250px' conforme a necessidade para acomodar o texto mais longo */
+        /* Ajuste do sidebar */
         [data-testid="stSidebar"] {
-            width: 280px; /* Tente 280px primeiro, pode ser que precise de mais ou menos */
+            width: 280px;
             min-width: 280px;
         }
 
-        /* O conteúdo dentro do sidebar também precisa ter a mesma largura para preencher */
         [data-testid="stSidebarContent"] {
             width: 280px;
         }
-        /* >>>>>>>>>>>>>>>>> FIM DO NOVO CSS <<<<<<<<<<<<<<<<< */
 
     </style>
     """,
@@ -121,14 +123,14 @@ st.markdown(
 
 # --- SIDEBAR ---
 with st.sidebar:
-    st.image("NE3.png", width=300, output_format="png") # Ajustei para .png caso seja o formato da sua logo
+    st.image("NE3.png", width=300, output_format="png")
     st.title("Menu")
 
     abas = [
         "🌐 Página inicial",
         "📈 Dashboard",
         "🗃️ Dados",
-        "📝 Análises e Tendências", # Este é o texto que está quebrando
+        "📝 Análises e Tendências",
         "⚠️ Alertas e Cenários",
         "💬 Feedback"
     ]
@@ -150,6 +152,58 @@ def exibe_header(titulo, descricao=None):
     if descricao:
         st.markdown(f"<p style='color:#CCCCCC'>{descricao}</p>", unsafe_allow_html=True)
     st.markdown("---")
+
+@st.cache_data(ttl=3600)
+def buscar_dados_bcb(codigos_sgs: dict, nomes_indicadores: list, data_inicial, data_final):
+    """
+    Busca dados de múltiplos indicadores no BCB para um determinado período.
+    Retorna um DataFrame com a Data (no formato dd/mm/aaaa) e os valores dos indicadores.
+    """
+
+    data_inicial_str = data_inicial.strftime('%Y-%m-%d')
+    data_final_str = data_final.strftime('%Y-%m-%d')
+
+    # Mapeamento nome -> código e código -> nome
+    nome_para_codigo = {nome: codigos_sgs[nome] for nome in nomes_indicadores if nome in codigos_sgs}
+    codigo_para_nome = {v: k for k, v in nome_para_codigo.items()}
+
+    if not codigo_para_nome:
+        st.warning("Nenhum código válido encontrado para os indicadores fornecidos.")
+        return pd.DataFrame()
+
+    try:
+        df_list = []
+        for codigo, nome in codigo_para_nome.items():
+            serie = sgs.get(codigo, start=data_inicial_str, end=data_final_str)
+            if not serie.empty:
+                serie.columns = [nome]  # Força o nome do indicador como nome da coluna
+                df_list.append(serie)
+
+        if df_list:
+            df_combinado = pd.concat(df_list, axis=1).reset_index()
+
+            # Renomear a coluna de data para 'Data'
+            df_combinado = df_combinado.rename(columns={df_combinado.columns[0]: 'Data'})
+
+            # Truncar horário e formatar como dd/mm/aaaa
+            df_combinado['Data'] = pd.to_datetime(df_combinado['Data']).dt.strftime('%d/%m/%Y')
+
+            # Substituir "None" (strings) por np.nan
+            df_combinado = df_combinado.replace("None", np.nan)
+
+            # Preencher valores ausentes com o valor mais próximo (ffill e bfill)
+            df_combinado = df_combinado.fillna(method='ffill').fillna(method='bfill')
+
+            return df_combinado
+        else:
+            st.warning("Não foram encontrados dados para o período especificado.")
+            return pd.DataFrame()
+
+    except Exception as e:
+        st.error(f"Erro ao buscar dados do Banco Central: {e}")
+        return pd.DataFrame()
+
+
 
 # --- CONTEÚDOS DAS ABAS ---
 if pagina == "🌐 Página inicial":
@@ -177,14 +231,24 @@ if pagina == "🌐 Página inicial":
 elif pagina == "📈 Dashboard":
     exibe_header("📈 Dashboard", "Visualize gráficos e indicadores.")
 
-    # --- CAMPOS PARA SELEÇÃO DE INDICADORES E DATAS ---
-    indicador_selecionado_nome = st.selectbox(
-        "Selecione o Indicador:",
+    # --- CAMPO PARA SELEÇÃO DE MÚLTIPLOS INDICADORES E DATAS ---
+    indicadores_selecionados_nomes = st.multiselect(
+        "Selecione os Indicadores para visualizar:",
         NOMES_INDICADORES,
-        key="indicador_dashboard"
+        default=[NOMES_INDICADORES[0]] if NOMES_INDICADORES else [], # Seleciona o primeiro por padrão
+        key="indicadores_dashboard_multi"
     )
 
-    indicador_selecionado_codigo = INDICADORES_BCB[indicador_selecionado_nome]
+    # Exibir descrições dos indicadores selecionados
+    if indicadores_selecionados_nomes:
+        st.markdown("### Descrição dos Indicadores Selecionados:")
+        for ind_nome in indicadores_selecionados_nomes:
+            detalhes = INDICADOR_DETALHES.get(ind_nome)
+            if detalhes and detalhes.get("descricao"):
+                st.markdown(f"**{ind_nome}**: *{detalhes['descricao']}*")
+            else:
+                st.markdown(f"**{ind_nome}**: *Descrição não disponível.*")
+        st.markdown("---")
 
     col_data_inicio, col_data_fim = st.columns(2)
 
@@ -204,69 +268,100 @@ elif pagina == "📈 Dashboard":
 
     if data_inicial > data_final:
         st.error("Erro: A Data Inicial não pode ser maior que a Data Final.")
+    elif not indicadores_selecionados_nomes:
+        st.warning("Por favor, selecione pelo menos um indicador para visualizar.")
     else:
-        st.info(f"Carregando dados para: **{indicador_selecionado_nome}**")
+        st.info(f"Carregando dados para: **{', '.join(indicadores_selecionados_nomes)}**")
         st.info(f"Período: de **{data_inicial.strftime('%d/%m/%Y')}** até **{data_final.strftime('%d/%m/%Y')}**")
 
         # --- BUSCA DE DADOS E PLOTAGEM ---
-        try:
-            data_inicial_str = data_inicial.strftime('%Y-%m-%d')
-            data_final_str = data_final.strftime('%Y-%m-%d')
+        with st.spinner("Buscando dados do Banco Central..."):
+            df_dashboard = buscar_dados_bcb(INDICADORES_BCB_DICT, indicadores_selecionados_nomes, data_inicial, data_final)
 
-            # --- CORREÇÃO APLICADA AQUI: sgs.G_SGS.get_series ---
-            df_bcb = sgs.G_SGS.get_series(
-                codes={indicador_selecionado_codigo: indicador_selecionado_nome},
-                start=data_inicial_str,
-                end=data_final_str
-            )
+        if not df_dashboard.empty:
+            st.subheader("Dados Combinados:")
+            st.dataframe(df_dashboard, use_container_width=True)
 
-            if not df_bcb.empty:
-                df_bcb = df_bcb.reset_index()
-                df_bcb = df_bcb.rename(columns={'index': 'Data'})
-
-                fig = px.line(
-                    df_bcb,
-                    x="Data",
-                    y=indicador_selecionado_nome,
-                    title=f"{indicador_selecionado_nome} ao longo do tempo",
-                    labels={"Data": "Data", indicador_selecionado_nome: "Valor"},
-                    template="plotly_dark"
-                )
-
-                fig.update_xaxes(
-                    rangeslider_visible=True,
-                    rangeselector=dict(
-                        buttons=list([
-                            dict(count=1, label="1m", step="month", stepmode="backward"),
-                            dict(count=6, label="6m", step="month", stepmode="backward"),
-                            dict(count=1, label="1a", step="year", stepmode="backward"),
-                            dict(step="all")
-                        ])
+            # Gerar gráficos para cada indicador selecionado
+            for indicador_para_grafico in indicadores_selecionados_nomes:
+                if indicador_para_grafico in df_dashboard.columns:
+                    fig = px.line(
+                        df_dashboard,
+                        x="Data",
+                        y=indicador_para_grafico,
+                        title=f"{indicador_para_grafico} ao longo do tempo",
+                        labels={"Data": "Data", indicador_para_grafico: "Valor"},
+                        template="plotly_dark"
                     )
-                )
 
-                st.plotly_chart(fig, use_container_width=True)
-            else:
-                st.warning(f"Não há dados disponíveis para '{indicador_selecionado_nome}' no período selecionado ({data_inicial_str} a {data_final_str}). Tente um período diferente ou verifique o indicador.")
-
-        except Exception as e:
-            st.error(f"Ocorreu um erro ao buscar os dados do Banco Central: {e}")
-            st.warning("Verifique sua conexão com a internet ou se o código do indicador está correto.")
-            st.info("Lembre-se de instalar a biblioteca 'bcb' caso ainda não o tenha feito: `pip install bcb`")
+                    fig.update_xaxes(
+                        rangeslider_visible=True,
+                        rangeselector=dict(
+                            buttons=list([
+                                dict(count=1, label="1m", step="month", stepmode="backward"),
+                                dict(count=6, label="6m", step="month", stepmode="backward"),
+                                dict(count=1, label="1a", step="year", stepmode="backward"),
+                                dict(step="all")
+                            ])
+                        )
+                    )
+                    st.plotly_chart(fig, use_container_width=True)
+                else:
+                    st.warning(f"Dados para '{indicador_para_grafico}' não encontrados no DataFrame combinado.")
+        else:
+            st.warning("Não foi possível carregar dados para os indicadores e período selecionados.")
 
 elif pagina == "🗃️ Dados":
     exibe_header("🗃️ Dados", "Explore dados em tabela.")
 
-    data = pd.DataFrame({
-        "Nome": ["Alice", "Bob", "Charlie", "Diana"],
-        "Idade": [24, 30, 22, 28],
-        "Cidade": ["São Paulo", "Rio", "Belo Horizonte", "Curitiba"]
-    })
+    # Nova seção para explorar dados brutos dos indicadores do JSON
+    st.markdown("### Selecione um Indicador para ver os dados brutos")
+    
+    indicador_para_dados = st.selectbox(
+        "Escolha um indicador:",
+        NOMES_INDICADORES,
+        key="indicador_dados_brutos"
+    )
 
-    st.dataframe(data, use_container_width=True)
+    col_data_inicio_dados, col_data_fim_dados = st.columns(2)
+    with col_data_inicio_dados:
+        data_inicial_dados = st.date_input(
+            "Data Inicial para Dados:",
+            value=datetime.date(2020, 1, 1),
+            key="data_inicial_dados"
+        )
+    with col_data_fim_dados:
+        data_final_dados = st.date_input(
+            "Data Final para Dados:",
+            value=datetime.date.today(),
+            key="data_final_dados"
+        )
 
-    csv = data.to_csv(index=False).encode('utf-8')
-    st.download_button("📥 Baixar dados em CSV", data=csv, file_name='dados.csv', mime='text/csv')
+    if indicador_para_dados:
+        st.markdown(f"**Descrição**: *{INDICADOR_DETALHES.get(indicador_para_dados, {}).get('descricao', 'Descrição não disponível.')}*")
+        
+        codigo_sgs_dados = INDICADORES_BCB_DICT.get(indicador_para_dados)
+        if codigo_sgs_dados:
+            with st.spinner(f"Buscando dados brutos para {indicador_para_dados}..."):
+                df_dados_brutos = buscar_dados_bcb(
+                    {indicador_para_dados: codigo_sgs_dados}, # Passa apenas o indicador selecionado
+                    [indicador_para_dados],
+                    data_inicial_dados,
+                    data_final_dados
+                )
+            if not df_dados_brutos.empty:
+                st.dataframe(df_dados_brutos, use_container_width=True)
+                csv = df_dados_brutos.to_csv(index=False).encode('utf-8')
+                st.download_button(
+                    f"📥 Baixar dados de {indicador_para_dados} em CSV",
+                    data=csv,
+                    file_name=f'{indicador_para_dados.replace(" ", "_").replace("/", "_").lower()}_dados.csv',
+                    mime='text/csv'
+                )
+            else:
+                st.warning(f"Não há dados disponíveis para '{indicador_para_dados}' no período selecionado.")
+        else:
+            st.warning(f"Não há código SGS disponível para '{indicador_para_dados}'. Não foi possível buscar dados do BCB.")
 
 elif pagina == "📝 Análises e Tendências":
     exibe_header("📝 Relatórios", "Gere e visualize relatórios.")
