@@ -3,7 +3,11 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import datetime
-from bcb import sgs # Importar o módulo sgs da biblioteca bcb
+from bcb import sgs
+from bcb import currency
+from bcb import Expectativas
+from bcb import TaxaJuros
+# Importar o módulo sgs da biblioteca bcb
 import requests # Importar para fazer requisições HTTP (para enviar feedback)
 
 # --- CONFIGURAÇÃO DA PÁGINA ---
@@ -58,6 +62,7 @@ st.markdown(
         }
 
         /* Footer do sidebar */
+        /* Este seletor pode mudar dependendo da versão do Streamlit, mas é um bom ponto de partida */
         .st-emotion-cache-vk33gh {
             display: flex;
             flex-direction: column;
@@ -94,6 +99,21 @@ st.markdown(
             color: #d0d0d0;
             font-size: 0.9em;
         }
+
+        /* >>>>>>>>>>>>>>>>> NOVO CSS PARA AJUSTAR O SIDEBAR <<<<<<<<<<<<<<<<< */
+        /* Use 'width' para definir uma largura fixa e 'min-width' para garantir */
+        /* Ajuste o valor '250px' conforme a necessidade para acomodar o texto mais longo */
+        [data-testid="stSidebar"] {
+            width: 280px; /* Tente 280px primeiro, pode ser que precise de mais ou menos */
+            min-width: 280px;
+        }
+
+        /* O conteúdo dentro do sidebar também precisa ter a mesma largura para preencher */
+        [data-testid="stSidebarContent"] {
+            width: 280px;
+        }
+        /* >>>>>>>>>>>>>>>>> FIM DO NOVO CSS <<<<<<<<<<<<<<<<< */
+
     </style>
     """,
     unsafe_allow_html=True
@@ -108,9 +128,9 @@ with st.sidebar:
         "🌐 Página inicial",
         "📈 Dashboard",
         "🗃️ Dados",
-        "📝 Análises e Tendências",
+        "📝 Análises e Tendências", # Este é o texto que está quebrando
         "⚠️ Alertas e Cenários",
-        "💬 Feedback" # <--- Nova aba adicionada
+        "💬 Feedback"
     ]
 
     pagina = st.radio("Ir para:", abas)
@@ -150,7 +170,6 @@ if pagina == "🌐 Página inicial":
     with col1:
         st.image("agro.jpg", caption="No limite, toda economia volta à terra.", use_container_width=True)
     with col2:
-        # Pela imagem, o nome correto seria "Operarios.jpg"
         st.image("Operarios.jpg", caption="O lucro cresce sobre rostos que não sorriem.", use_container_width=True)
     with col3:
         st.image("wall.jpg", caption="Um só caminho, e não é para todos.", use_container_width=True)
@@ -207,13 +226,13 @@ elif pagina == "📈 Dashboard":
 
                 fig = px.line(
                     df_bcb,
-                    x="Data", # <--- Corrigido para não repetir 'x'
+                    x="Data",
                     y=indicador_selecionado_nome,
                     title=f"{indicador_selecionado_nome} ao longo do tempo",
                     labels={"Data": "Data", indicador_selecionado_nome: "Valor"},
                     template="plotly_dark"
                 )
-                
+
                 fig.update_xaxes(
                     rangeslider_visible=True,
                     rangeselector=dict(
@@ -264,7 +283,7 @@ elif pagina == "⚠️ Alertas e Cenários":
     st.button("Salvar Configurações")
     st.success("Configurações atualizadas!")
 
-elif pagina == "💬 Feedback": # <--- Nova aba "Feedback"
+elif pagina == "💬 Feedback":
     exibe_header("💬 Envie seu Feedback", "Sua opinião é muito importante para nós!")
 
     st.write("Utilize este formulário para enviar sugestões, reportar bugs ou fazer perguntas. Seu feedback nos ajuda a melhorar!")
@@ -289,8 +308,6 @@ elif pagina == "💬 Feedback": # <--- Nova aba "Feedback"
             if not mensagem:
                 st.warning("Por favor, preencha o campo de mensagem antes de enviar.")
             else:
-                # --- URL DO SEU GOOGLE APPS SCRIPT ---
-                # Esta é a URL real do seu App da Web do Google Apps Script
                 backend_api_url = "https://script.google.com/macros/s/AKfycbyZ-cd3NC8EuFzMImOu1Ta34B9sMeB6yTsDjI1eOWORtcOdsUQ1EK72zl2s45Y06aXs/exec"
 
                 feedback_data = {
@@ -304,7 +321,6 @@ elif pagina == "💬 Feedback": # <--- Nova aba "Feedback"
                 }
 
                 try:
-                    # Envia os dados JSON para o seu App da Web do Google Apps Script
                     response = requests.post(backend_api_url, json=feedback_data, timeout=10)
 
                     if response.status_code == 200:
