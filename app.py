@@ -433,7 +433,7 @@ elif pagina == "🗃️ Dados":
 
             # Botão de download
             # Criação do Excel em memória
-            col1, col2 = st.columns([0.5, 5.9])
+            col1, col2 = st.columns([0.5, 2])
 
             # Excel
             with col1:
