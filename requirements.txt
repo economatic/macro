@@ -2,7 +2,7 @@ streamlit
 pandas
 numpy
 plotly
-python-bcb # Note: é 'python-bcb', não 'bcb' como na sua lista de sugestões, mas o pip freeze pegou certo
+bcb
 requests
-altair # Se você usa gráficos Altair, mantenha
-pydeck # Se você usa pydeck para mapas, mantenhapip
+XlsxWriter
+openpyxl
