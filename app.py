@@ -6,6 +6,8 @@ import datetime
 from bcb import sgs
 import json
 import requests
+import io
+
 # As importações abaixo não estão sendo usadas e podem ser removidas para um código mais limpo:
 # from bcb import currency
 # from bcb import Expectativas
@@ -218,7 +220,13 @@ if pagina == "🌐 Página inicial":
     st.markdown(
         """
         <p>
-        Este monitor econômico foi desenvolvido para fornecer uma visão abrangente e detalhada dos principais indicadores econômicos. Nosso objetivo é transformar dados complexos em informações claras e acessíveis, permitindo que você tome decisões mais informadas. Para garantir a confiabilidade e atualização contínua, o projeto conta com a integração direta com a API do Banco Central do Brasil, utilizando o Sistema Gerenciador de Séries Temporais (SGS) para a extração dos dados econômicos. Explore os dashboards interativos, acesse dados brutos e acompanhe análises e tendências para compreender o cenário econômico atual e futuro.
+        Este monitor econômico foi concebido com o objetivo central de simplificar a busca, compilação e extração dos principais dados econômicos disponíveis em fontes oficiais, como o Banco Central do Brasil, o IBGE e o IPEA. A plataforma foi desenvolvida a partir de uma arquitetura orientada à automação e à integridade das informações, garantindo eficiência na coleta e atualização dos dados.
+
+O sistema integra diretamente a API do Banco Central, utilizando o Sistema Gerenciador de Séries Temporais (SGS), e está preparado para incorporar outras bases públicas de dados econômicos, consolidando múltiplas fontes em um único ambiente analítico.
+
+A solução apresenta painéis interativos, acesso a dados brutos e visualizações dinâmicas, permitindo uma compreensão rápida e aprofundada do cenário macroeconômico. Seu desenvolvimento envolveu uma abordagem estratégica e técnica voltada à democratização da informação econômica e à melhoria do processo decisório em ambientes institucionais, corporativos e acadêmicos.
+
+O projeto é resultado de uma iniciativa independente, idealizada e estruturada por seu criador com foco em usabilidade, confiabilidade e escalabilidade na análise de séries temporais econômicas.
         </p>
         """,
         unsafe_allow_html=True
@@ -424,13 +432,31 @@ elif pagina == "🗃️ Dados":
             st.dataframe(df_dados_brutos, use_container_width=True)
 
             # Botão de download
-            csv = df_dados_brutos.to_csv(index=False).encode("utf-8")
-            st.download_button(
-                label="📥 Baixar dados combinados em CSV",
-                data=csv,
-                file_name="dados_indicadores_combinados.csv",
-                mime="text/csv"
-            )
+            # Criação do Excel em memória
+            col1, col2 = st.columns([0.5, 5.9])
+
+            # Excel
+            with col1:
+                output_excel = io.BytesIO()
+                with pd.ExcelWriter(output_excel, engine='xlsxwriter') as writer:
+                    df_dados_brutos.to_excel(writer, index=False, sheet_name='Indicadores')
+                output_excel.seek(0)
+                st.download_button(
+                    label="📥 Baixar Excel",
+                    data=output_excel,
+                    file_name="dados_indicadores_combinados.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
+
+            # CSV
+            with col2:
+                csv = df_dados_brutos.to_csv(index=False).encode("utf-8")
+                st.download_button(
+                    label="📥 Baixar CSV",
+                    data=csv,
+                    file_name="dados_indicadores_combinados.csv",
+                    mime="text/csv"
+                )
         else:
             st.warning("Nenhum dado retornado para os indicadores e período selecionados.")
 
